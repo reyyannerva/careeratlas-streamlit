@@ -1,0 +1,29 @@
+﻿__pycache__/
+*.pyc
+
+.venv*/
+venv/
+env/
+ENV/
+
+node_modules/
+web/
+career-os/
+.vscode/
+.vs/
+.idea/
+.env
+
+# block large files generally
+*.zip
+*.7z
+*.tar
+*.gz
+*.csv
+*.xlsx
+
+# allow ONLY our needed parquet if present
+*.parquet
+!data/app/jobs_app_with_link_health.parquet
+
+.streamlit/secrets.toml
