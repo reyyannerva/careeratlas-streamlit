@@ -268,18 +268,12 @@ table tbody tr:hover {{ background: rgba(110,231,255,.06); }}
 
 # ===================== DATASET =====================
 
-ROOT = Path(__file__).resolve().parents[1]
-CANDIDATES = [
-    ROOT / "data" / "app" / "jobs_app_with_link_health.parquet",
-    ROOT / "data" / "app" / "jobs_app.parquet",
-    ROOT / "data" / "derived" / "data" / "app" / "jobs_app_with_link_health.parquet",
-]
+# ===================== DATASET =====================
 
 def pick_dataset() -> Path | None:
-    for p in CANDIDATES:
-        if p.exists():
-            return p
-    return None
+    p = DATASET_PATH
+    return p if p.exists() else None
+
 
 @st.cache_data(show_spinner=False)
 def load_df(path_str: str) -> pd.DataFrame:
