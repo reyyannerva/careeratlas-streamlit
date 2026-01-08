@@ -1,5 +1,9 @@
 ﻿# -*- coding: utf-8 -*-
 from __future__ import annotations
+from pathlib import Path
+BASE_DIR = Path(__file__).resolve().parent
+DATASET_PATH = BASE_DIR / "data" / "app" / "jobs_app_with_link_health.parquet"
+
 
 import io
 import json
