@@ -892,12 +892,30 @@ def page_cv_career_advisor():
     if not go:
         return
 
-    # API is optional, but if unavailable we won't crash the whole app
+    # API varsa kullan, yoksa LOCAL MODE ile devam et
+    api_ok = True
     try:
         _ = api_get("/health")
-    except Exception as e:
-        st.error(f"API /health erişilemiyor: {e}")
-        st.stop()
+    except Exception:
+        api_ok = False
+
+    if not api_ok:
+        st.warning("⚠️ API (FastAPI) Cloud'da yok. LOCAL MODE çalışıyor: rol/skill tahmini lokal yapılacak.")
+        local_sk = extract_skills_from_text(text, topk=30)
+        local_role, _ = infer_role_from_text(text)
+
+        st.divider()
+        st.markdown("## 🚀 Sonuç (Local CareerAtlas)")
+        c1, c2, c3 = st.columns(3)
+        c1.metric("Tahmin Rol", local_role)
+        c2.metric("Çıkan Skill", str(len(local_sk)))
+        c3.metric("API", "Kapalı")
+
+        st.markdown("### ✅ Çıkan beceriler")
+        badge_row(local_sk, cls="ca-badge ca-badge-skill", maxn=24)
+
+        st.info("Cloud demo sürümünde FastAPI olmadığı için KG/XAI çalışmaz. İstersen FastAPI'yi ayrıca deploy ederiz.")
+        return
 
     try:
         career = api_post("/career_advisor", {"cv_text": text})
@@ -1207,6 +1225,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
