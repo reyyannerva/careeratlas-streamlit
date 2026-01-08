@@ -8,3 +8,7 @@ pyvis
 
 pyarrow
 fastparquet
+
+fastapi
+uvicorn[standard]
+
